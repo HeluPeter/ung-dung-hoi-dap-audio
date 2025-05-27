@@ -439,26 +439,27 @@ function App() {
       } else {
         setFeedbackType('incorrect');
         setIsLoadingExplanation(true);
-        const initialIncorrectMsg = `Bạn đã trả lời là: "${transcribed}".\nChưa đúng rồi.`;
-        setFeedbackMessage(initialIncorrectMsg + "\nAI đang phân tích lỗi sai...");
+        const detailedFeedback = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Hãy cố gắng hơn nhé!`;
+        const initialIncorrectMsg = `Bạn đã trả lời là: "${transcribed}".\n${detailedFeedback}`;;
+        setFeedbackMessage(initialIncorrectMsg );
 
-        const explanationPrompt = `Câu hỏi là: "${currentQuestion.questionText}". Đáp án đúng của câu hỏi này là: "${currentQuestion.correctAnswerText}". Học sinh đã trả lời là: "${transcribed}". Hãy đưa ra một lời giải thích ngắn gọn (tối đa 2-3 câu), thân thiện, dễ hiểu bằng tiếng Việt cho học sinh, chỉ ra điểm chưa đúng trong câu trả lời của học sinh hoặc gợi ý về đáp án đúng. Bắt đầu bằng một cách xưng hô thân mật như "Bạn ơi," hoặc "Này bạn,".`;
-        const explanationPayload = { contents: [{ role: "user", parts: [{ text: explanationPrompt }] }]};
-        const apiUrlExplanation = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // const explanationPrompt = `Câu hỏi là: "${currentQuestion.questionText}". Đáp án đúng của câu hỏi này là: "${currentQuestion.correctAnswerText}". Học sinh đã trả lời là: "${transcribed}". Hãy đưa ra một lời giải thích ngắn gọn (tối đa 2-3 câu), thân thiện, dễ hiểu bằng tiếng Việt cho học sinh, chỉ ra điểm chưa đúng trong câu trả lời của học sinh hoặc gợi ý về đáp án đúng. Bắt đầu bằng một cách xưng hô thân mật như "Bạn ơi," hoặc "Này bạn,".`;
+        // const explanationPayload = { contents: [{ role: "user", parts: [{ text: explanationPrompt }] }]};
+        // const apiUrlExplanation = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-        try {
-            const explanationResponse = await fetch(apiUrlExplanation, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(explanationPayload)});
-            if (!explanationResponse.ok) { const errorData = await explanationResponse.json(); throw new Error(`Lỗi API giải thích: ${errorData.error?.message || explanationResponse.statusText}`);}
-            const explanationResult = await explanationResponse.json();
-            let detailedFeedback = explanationResult.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (!detailedFeedback) detailedFeedback = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Hãy cố gắng hơn nhé!`;
-            setFeedbackMessage(`${initialIncorrectMsg}\n${detailedFeedback}`);
-        } catch (explanationError) {
-            const fallbackMsg = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Lần sau cố gắng hơn nhé!`;
-            setFeedbackMessage(`${initialIncorrectMsg}\n${fallbackMsg}`);
-        } finally {
-            setIsLoadingExplanation(false);
-        }
+        // try {
+        //     const explanationResponse = await fetch(apiUrlExplanation, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(explanationPayload)});
+        //     if (!explanationResponse.ok) { const errorData = await explanationResponse.json(); throw new Error(`Lỗi API giải thích: ${errorData.error?.message || explanationResponse.statusText}`);}
+        //     const explanationResult = await explanationResponse.json();
+        //     let detailedFeedback = explanationResult.candidates?.[0]?.content?.parts?.[0]?.text;
+        //     if (!detailedFeedback) detailedFeedback = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Hãy cố gắng hơn nhé!`;
+        //     setFeedbackMessage(`${initialIncorrectMsg}\n${detailedFeedback}`);
+        // } catch (explanationError) {
+        //     const fallbackMsg = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Lần sau cố gắng hơn nhé!`;
+        //     setFeedbackMessage(`${initialIncorrectMsg}\n${fallbackMsg}`);
+        // } finally {
+        //     setIsLoadingExplanation(false);
+        // }
       }
     } catch (err) {
       setError(`Đã xảy ra lỗi: ${err.message}. Vui lòng thử lại.`);
