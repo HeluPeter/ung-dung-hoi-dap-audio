@@ -387,8 +387,13 @@ function App() {
   };
 
   const normalizeText = (text) => {
-    if (!text) return '';
-    return text.toLowerCase().trim().replace(/[.,?!"]/g, '');
+    return answer
+      .replace(/“|”|"/g,'') // Loại bỏ dấu nháy
+      .replace(/-/g,'') // Loại bỏ dấu gạch nối
+      .replace(/[.,;|/?\\!@#$%^&*()_+=~`'{}\[\]:<>]/g,'') // Loại bỏ dấu chấm, phẩy và các ký tự đặc biệt
+      .replace(/\s+/g,' ') // Thay thế nhiều khoảng trắng bằng một khoảng trắng
+      .trim() // Cắt bỏ khoảng trắng thừa
+      .toLowerCase(); // Chuyển đổi thành chữ thường
   };
 
   const handleCheckAnswer = async () => {
