@@ -458,7 +458,7 @@ function App() {
         //     const fallbackMsg = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Lần sau cố gắng hơn nhé!`;
         //     setFeedbackMessage(`${initialIncorrectMsg}\n${fallbackMsg}`);
         // } finally {
-        //     setIsLoadingExplanation(false);
+            setIsLoadingExplanation(false);
         // }
       }
     } catch (err) {
@@ -569,8 +569,8 @@ function App() {
             <p className="text-center text-xl py-10 text-slate-600">Không có câu hỏi nào để hiển thị.</p>
           )}
            <footer className="mt-10 pt-6 border-t border-slate-300/70 text-center text-xs text-slate-500">
-              <p>Sử dụng API của Gemini để chuyển đổi giọng nói và tạo giải thích.</p>
-              <p className="font-semibold mt-2 text-purple-600">Lưu ý: Hãy thay thế "YOUR_API_KEY_HERE" bằng API Key thực của bạn trong code.</p>
+              <p>Nhấn vào nút Ghi âm để ghi âm câu trả lời và sau đó nhấn Kiểm tra xem đúng chưa nhé!</p>
+              <p className="font-semibold mt-2 text-purple-600">Lưu ý: Nếu có lỗi gì sai gì inbox ngay cho Oppa nha, kamsahe ~~</p>
           </footer>
         </div>
       </div>
