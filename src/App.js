@@ -387,7 +387,7 @@ function App() {
   };
 
   const normalizeText = (text) => {
-    return answer
+    return text
       .replace(/“|”|"/g,'') // Loại bỏ dấu nháy
       .replace(/-/g,'') // Loại bỏ dấu gạch nối
       .replace(/[.,;|/?\\!@#$%^&*()_+=~`'{}\[\]:<>]/g,'') // Loại bỏ dấu chấm, phẩy và các ký tự đặc biệt
@@ -444,8 +444,8 @@ function App() {
       } else {
         setFeedbackType('incorrect');
         setIsLoadingExplanation(true);
-        const detailedFeedback = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Hãy cố gắng hơn nhé!`;
-        const initialIncorrectMsg = `Bạn đã trả lời là: "${transcribed}".\n${detailedFeedback}`;;
+        const detailedFeedback = `Đáp án đúng là: "${currentQuestion.correctAnswerText}". Hãy thử lại nhé!`;
+        const initialIncorrectMsg = `Sai rùi hehe ^^.\n${detailedFeedback}`;;
         setFeedbackMessage(initialIncorrectMsg );
 
         // const explanationPrompt = `Câu hỏi là: "${currentQuestion.questionText}". Đáp án đúng của câu hỏi này là: "${currentQuestion.correctAnswerText}". Học sinh đã trả lời là: "${transcribed}". Hãy đưa ra một lời giải thích ngắn gọn (tối đa 2-3 câu), thân thiện, dễ hiểu bằng tiếng Việt cho học sinh, chỉ ra điểm chưa đúng trong câu trả lời của học sinh hoặc gợi ý về đáp án đúng. Bắt đầu bằng một cách xưng hô thân mật như "Bạn ơi," hoặc "Này bạn,".`;
@@ -536,9 +536,9 @@ function App() {
               {error && (
                 <div className="mt-4 p-3 bg-red-100 text-red-700 border border-red-300 rounded-lg text-center"><p>{error}</p></div>
               )}
-              {transcript && !feedbackMessage && ( // Chỉ hiển thị khi chưa có feedback cuối cùng
+              {transcript && feedbackMessage && ( // Chỉ hiển thị khi chưa có feedback cuối cùng
                 <div className="mt-4 p-4 bg-slate-50 rounded-lg shadow">
-                  <p className="font-semibold text-purple-500">Bạn đã nói:</p>
+                  <p className="font-semibold text-purple-500">Câu trả lời của bạn: </p>
                   <p className="italic text-slate-700">"{transcript}"</p>
                 </div>
               )}
